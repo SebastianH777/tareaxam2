@@ -1,0 +1,196 @@
+cs:
+using System;
+using Xamarin.Forms;
+
+namespace tareaxam2
+{
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+
+        private void OnEnviarClicked(object sender, EventArgs e)
+        {
+            // Recopila los datos de los controles
+            string nombre = NombreEntry.Text;
+            string puesto = PuestoEntry.Text;
+            string telefono = TelefonoEntry.Text;
+            string email = EmailEntry.Text;
+            string pais = PaisPicker.SelectedItem?.ToString() ?? "No seleccionado";
+            string fechaNacimiento = FechaNacimientoPicker.Date.ToString("dd/MM/yyyy");
+
+            // Habilidades seleccionadas
+            string habilidades = "";
+            if (NatacionCheckBox.IsChecked) habilidades += "Natación, ";
+            if (ProgramacionCheckBox.IsChecked) habilidades += "Programación en C++, ";
+            if (DisenoWebCheckBox.IsChecked) habilidades += "Diseño web, ";
+            if (HablarPublicoCheckBox.IsChecked) habilidades += "Hablar en público, ";
+            if (LiderazgoCheckBox.IsChecked) habilidades += "Liderazgo, ";
+
+            if (!string.IsNullOrEmpty(habilidades))
+            {
+                // Quita la última coma y espacio
+                habilidades = habilidades.TrimEnd(',', ' ');
+            }
+            else
+            {
+                habilidades = "Ninguna";
+            }
+
+            // Muestra los datos recopilados
+            DisplayAlert("Datos Ingresados",
+                         $"Nombre: {nombre}\n" +
+                         $"Puesto: {puesto}\n" +
+                         $"Teléfono: {telefono}\n" +
+                         $"Email: {email}\n" +
+                         $"País: {pais}\n" +
+                         $"Fecha de nacimiento: {fechaNacimiento}\n" +
+                         $"Habilidades: {habilidades}",
+                         "OK");
+        }
+    }
+}
+
+
+
+xaml:<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tareaxam2.MainPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" BackgroundColor="#f4f4f4">
+                <Label Text="Curriculum Vitae" 
+                       FontSize="24" 
+                       HorizontalOptions="Center"
+                       Margin="0, 10" />
+
+                <!-- Nombre -->
+                <Entry Placeholder="Ingresa tu nombre" x:Name="NombreEntry" />
+
+                <!-- Puesto Ocupado/Buscado -->
+                <Entry Placeholder="Puesto Ocupado/Buscado" x:Name="PuestoEntry" />
+
+                <!-- Teléfono -->
+                <Entry Placeholder="Teléfono" x:Name="TelefonoEntry" Keyboard="Telephone" />
+
+                <!-- Email -->
+                <Entry Placeholder="Email" x:Name="EmailEntry" Keyboard="Email" />
+
+                <!-- País -->
+                <Picker Title="Selecciona tu país" x:Name="PaisPicker">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Perú</x:String>
+                            <x:String>Argentina</x:String>
+                            <x:String>Chile</x:String>
+                            <x:String>Colombia</x:String>
+                            <x:String>Brasil</x:String>
+                            <x:String>Ecuador</x:String>
+                            <x:String>Venezuela</x:String>
+                            <x:String>Uruguay</x:String>
+                            <x:String>Paraguay</x:String>
+                            <x:String>Bolivia</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <!-- LinkedIn -->
+                <Entry Placeholder="Perfil de LinkedIn" x:Name="LinkedInEntry" />
+
+                <!-- Idiomas -->
+                <Label Text="Idiomas" FontSize="18" Margin="0, 10, 0, 0" />
+                <Label Text="Español:" />
+                <StackLayout Orientation="Horizontal">
+                    <RadioButton Content="Básico" GroupName="Español" />
+                    <RadioButton Content="Intermedio" GroupName="Español" />
+                    <RadioButton Content="Avanzado" GroupName="Español" />
+                    <RadioButton Content="Fluido" GroupName="Español" />
+                </StackLayout>
+                <Label Text="Inglés:" />
+                <StackLayout Orientation="Horizontal">
+                    <RadioButton Content="Básico" GroupName="Inglés" />
+                    <RadioButton Content="Intermedio" GroupName="Inglés" />
+                    <RadioButton Content="Avanzado" GroupName="Inglés" />
+                    <RadioButton Content="Fluido" GroupName="Inglés" />
+                </StackLayout>
+
+                <!-- Aptitudes -->
+                <Label Text="Aptitudes" FontSize="18" Margin="0, 10, 0, 0" />
+                <Entry Placeholder="Escribe o selecciona una aptitud" />
+
+                <!-- Habilidades -->
+                <Label Text="Habilidades" FontSize="18" Margin="0, 10, 0, 0" />
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="NatacionCheckBox" />
+                        <Label Text="Natación" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="ProgramacionCheckBox" />
+                        <Label Text="Programación en C++" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="DisenoWebCheckBox" />
+                        <Label Text="Diseño web" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="HablarPublicoCheckBox" />
+                        <Label Text="Hablar en público" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="LiderazgoCheckBox" />
+                        <Label Text="Liderazgo" VerticalOptions="Center" />
+                    </StackLayout>
+                </StackLayout>
+
+                <!-- Perfil -->
+                <Label Text="Perfil" FontSize="18" Margin="0, 10, 0, 0" />
+                <Label Text="Fecha de nacimiento:" />
+                <DatePicker x:Name="FechaNacimientoPicker" />
+                <Label Text="Descripción de vida:" />
+                <Editor Placeholder="Escribe una breve descripción de tu vida..." HeightRequest="100" />
+
+                <!-- Intereses -->
+                <Label Text="Intereses" FontSize="18" Margin="0, 10, 0, 0" />
+                <Editor Placeholder="Escribe aquí tus intereses..." HeightRequest="100" />
+
+                <!-- Lenguajes de programación -->
+                <Label Text="Lenguajes de programación" FontSize="18" Margin="0, 10, 0, 0" />
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="CppCheckBox" />
+                        <Label Text="C++" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="JavaCheckBox" />
+                        <Label Text="Java" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="PythonCheckBox" />
+                        <Label Text="Python" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="JavaScriptCheckBox" />
+                        <Label Text="JavaScript" VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="PhpCheckBox" />
+                        <Label Text="PHP" VerticalOptions="Center" />
+                    </StackLayout>
+                </StackLayout>
+
+                <!-- Botón Enviar -->
+                <Button Text="Enviar" 
+        BackgroundColor="#007bff" 
+        TextColor="White" 
+        CornerRadius="5" 
+        Margin="0, 10" 
+        Clicked="OnEnviarClicked" />
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
